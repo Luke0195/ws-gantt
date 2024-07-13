@@ -1,5 +1,6 @@
 package br.com.plannermanager.bunisses.service.impl;
 
+import br.com.plannermanager.bunisses.exceptions.EntityAlreadyExistsException;
 import br.com.plannermanager.bunisses.mapper.ProjectMapper;
 import br.com.plannermanager.bunisses.service.ProjectService;
 
@@ -24,7 +25,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional
     public ProjectPayload create(ProjectRequest projectRequest) {
      Optional<Project> findProjectByName = projectRepository.findByName(projectRequest.getName());
-     if(findProjectByName.isPresent()) throw new RuntimeException("Project name is already exists!");
+     if(findProjectByName.isPresent()) throw new EntityAlreadyExistsException("Project name is already exists!");
      Project project = ProjectMapper.INSTANCE.mapDtoToEntity(projectRequest);
      project = projectRepository.save(project);
      return ProjectMapper.INSTANCE.mapEntityToDto(project);
