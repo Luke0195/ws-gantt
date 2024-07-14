@@ -16,11 +16,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
+@ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = ProjectServiceTest.class)
 @ActiveProfiles("dev")
 class ProjectServiceTest {
 
