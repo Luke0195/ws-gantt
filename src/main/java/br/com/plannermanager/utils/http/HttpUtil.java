@@ -1,6 +1,7 @@
 package br.com.plannermanager.utils.http;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -23,5 +24,8 @@ public class HttpUtil {
         return ResponseEntity.created(uri).body(payload);
     }
 
+    public static<K> ResponseEntity<K> getBadRequestResponse( K payload){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(payload);
+    }
 
 }

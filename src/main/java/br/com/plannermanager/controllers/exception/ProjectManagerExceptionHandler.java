@@ -23,9 +23,8 @@ public class ProjectManagerExceptionHandler {
     String pathUrl = HttpUtil.getUriFromRequest(httpServletRequest);
     int badRequestStatusCode = HttpStatus.BAD_REQUEST.value();
     StandardErrorPayload responseData = makeStandardErrorPayload("Entity already Exists!", getExceptionMessage(exception),pathUrl, badRequestStatusCode, new ArrayList<>());
-    return ResponseEntity.status(badRequestStatusCode).body(responseData);
+    return HttpUtil.getBadRequestResponse(responseData);
   }
-
 
   private static StandardErrorPayload makeStandardErrorPayload(String error, String exceptionMessage, String path, int statuCode, List<Object> errors){
      return StandardErrorPayload
