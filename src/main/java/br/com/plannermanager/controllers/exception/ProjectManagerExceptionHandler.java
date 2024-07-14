@@ -3,8 +3,9 @@ package br.com.plannermanager.controllers.exception;
 
 import br.com.plannermanager.bunisses.exceptions.EntityAlreadyExistsException;
 import br.com.plannermanager.dto.response.StandardErrorPayload;
+import br.com.plannermanager.utils.http.HttpUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import org.aspectj.weaver.ast.IExprVisitor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,7 +19,7 @@ public class ProjectManagerExceptionHandler {
 
   @ExceptionHandler(EntityAlreadyExistsException.class)
   public ResponseEntity<StandardErrorPayload> entityAlreadyExists(HttpServletRequest httpServletRequest, EntityAlreadyExistsException exception){
-    String pathUrl = httpServletRequest.getRequestURI();
+    String pathUrl = HttpUtil.getUriFromRequest(httpServletRequest);
     int badRequestStatusCode = HttpStatus.BAD_REQUEST.value();
     StandardErrorPayload responseData = StandardErrorPayload
               .builder()
