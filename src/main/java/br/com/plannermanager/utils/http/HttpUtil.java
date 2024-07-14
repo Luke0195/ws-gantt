@@ -11,6 +11,10 @@ public class HttpUtil {
 
     private HttpUtil(){}
 
+    public static  int getStatusCode(HttpStatus httpStatus){
+        return httpStatus.value();
+    }
+
     public static String getUriFromRequest(HttpServletRequest request){
         return request.getRequestURI();
     }

@@ -23,6 +23,6 @@ public class StandardErrorDto implements Serializable {
     @JsonProperty("exception_message")
     private String exceptionMessage;
     @JsonProperty("field_errors")
-    private List<Object> fieldError;
+    private List<FieldErrorDto> fieldError;
 
 }
