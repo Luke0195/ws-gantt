@@ -11,13 +11,10 @@ import org.mapstruct.factory.Mappers;
 public interface ProjectMapper {
     ProjectMapper INSTANCE = Mappers.getMapper(ProjectMapper.class);
 
-
-
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     Project mapDtoToEntity(ProjectRequest request);
-
 
     ProjectPayload mapEntityToDto(Project project);
 }

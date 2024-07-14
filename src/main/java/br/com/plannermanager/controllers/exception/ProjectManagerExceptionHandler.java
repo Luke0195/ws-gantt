@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @ControllerAdvice
 public class ProjectManagerExceptionHandler {
@@ -21,18 +22,25 @@ public class ProjectManagerExceptionHandler {
   public ResponseEntity<StandardErrorPayload> entityAlreadyExists(HttpServletRequest httpServletRequest, EntityAlreadyExistsException exception){
     String pathUrl = HttpUtil.getUriFromRequest(httpServletRequest);
     int badRequestStatusCode = HttpStatus.BAD_REQUEST.value();
-    StandardErrorPayload responseData = StandardErrorPayload
-              .builder()
-            .error("Entity already exists!")
-            .exceptionMessage(exception.getMessage())
-            .path(pathUrl)
-            .status(badRequestStatusCode)
-            .timestamp(LocalDateTime.now())
-            .fieldError(new ArrayList<>())
-            .build();
+    StandardErrorPayload responseData = makeStandardErrorPayload("Entity already Exists!", getExceptionMessage(exception),pathUrl, badRequestStatusCode, new ArrayList<>());
     return ResponseEntity.status(badRequestStatusCode).body(responseData);
   }
 
 
+  private static StandardErrorPayload makeStandardErrorPayload(String error, String exceptionMessage, String path, int statuCode, List<Object> errors){
+     return StandardErrorPayload
+             .builder()
+             .error(error)
+             .exceptionMessage(exceptionMessage)
+             .path(path)
+             .status(statuCode)
+             .timestamp(LocalDateTime.now())
+             .fieldError(errors)
+             .build();
+  }
+
+  private static String getExceptionMessage(RuntimeException exception){
+    return exception.getMessage();
+  }
 
 }
