@@ -1,8 +1,8 @@
 package br.com.plannermanager.controllers;
 
 import br.com.plannermanager.bunisses.service.impl.ProjectServiceImpl;
-import br.com.plannermanager.dto.request.ProjectRequest;
-import br.com.plannermanager.dto.response.ProjectPayload;
+import br.com.plannermanager.dto.request.ProjectRequestDto;
+import br.com.plannermanager.dto.response.ProjectResponseDto;
 import br.com.plannermanager.utils.http.HttpUtil;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -23,8 +23,8 @@ public class ProjectController {
   private final ProjectServiceImpl projectService;
 
   @PostMapping
-  public ResponseEntity<ProjectPayload> createProject(@Valid @RequestBody ProjectRequest projectRequest){
-      ProjectPayload response = projectService.create(projectRequest);
+  public ResponseEntity<ProjectResponseDto> createProject(@Valid @RequestBody ProjectRequestDto projectRequestDto){
+      ProjectResponseDto response = projectService.create(projectRequestDto);
       URI uri = HttpUtil.getUriFromObject(response);
       return HttpUtil.getCreatedResponse(uri, response);
   }

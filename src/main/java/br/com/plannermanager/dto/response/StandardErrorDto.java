@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class StandardErrorPayload implements Serializable {
+public class StandardErrorDto implements Serializable {
 
     private LocalDateTime timestamp;
     private Integer status;

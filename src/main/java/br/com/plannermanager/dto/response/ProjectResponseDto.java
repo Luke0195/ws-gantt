@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProjectPayload implements Serializable {
+public class ProjectResponseDto implements Serializable {
 
     private UUID id;
     private String name;

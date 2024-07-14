@@ -13,7 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProjectRequest implements Serializable {
+public class ProjectRequestDto implements Serializable {
 
     @NotEmpty(message = "The field name must be required")
     private String name;

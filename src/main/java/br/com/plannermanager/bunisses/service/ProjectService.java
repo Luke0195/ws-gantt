@@ -1,9 +1,9 @@
 package br.com.plannermanager.bunisses.service;
 
-import br.com.plannermanager.dto.request.ProjectRequest;
-import br.com.plannermanager.dto.response.ProjectPayload;
+import br.com.plannermanager.dto.request.ProjectRequestDto;
+import br.com.plannermanager.dto.response.ProjectResponseDto;
 
 public interface ProjectService {
 
-    ProjectPayload create(ProjectRequest projectRequest);
+    ProjectResponseDto create(ProjectRequestDto projectRequestDto);
 }

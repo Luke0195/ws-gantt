@@ -5,8 +5,8 @@ import br.com.plannermanager.bunisses.mapper.ProjectMapper;
 import br.com.plannermanager.bunisses.service.ProjectService;
 
 import br.com.plannermanager.domain.Project;
-import br.com.plannermanager.dto.request.ProjectRequest;
-import br.com.plannermanager.dto.response.ProjectPayload;
+import br.com.plannermanager.dto.request.ProjectRequestDto;
+import br.com.plannermanager.dto.response.ProjectResponseDto;
 import br.com.plannermanager.repository.ProjectRepository;
 import lombok.AllArgsConstructor;
 
@@ -23,10 +23,10 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Transactional
-    public ProjectPayload create(ProjectRequest projectRequest) {
-     Optional<Project> findProjectByName = projectRepository.findByName(projectRequest.getName());
+    public ProjectResponseDto create(ProjectRequestDto projectRequestDto) {
+     Optional<Project> findProjectByName = projectRepository.findByName(projectRequestDto.getName());
      if(findProjectByName.isPresent()) throw new EntityAlreadyExistsException("Project name is already exists!");
-     Project project = ProjectMapper.INSTANCE.mapDtoToEntity(projectRequest);
+     Project project = ProjectMapper.INSTANCE.mapDtoToEntity(projectRequestDto);
      project = projectRepository.save(project);
      return ProjectMapper.INSTANCE.mapEntityToDto(project);
     }

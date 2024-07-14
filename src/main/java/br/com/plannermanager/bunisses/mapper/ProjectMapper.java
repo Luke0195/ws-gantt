@@ -1,8 +1,8 @@
 package br.com.plannermanager.bunisses.mapper;
 
 import br.com.plannermanager.domain.Project;
-import br.com.plannermanager.dto.request.ProjectRequest;
-import br.com.plannermanager.dto.response.ProjectPayload;
+import br.com.plannermanager.dto.request.ProjectRequestDto;
+import br.com.plannermanager.dto.response.ProjectResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -14,7 +14,7 @@ public interface ProjectMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
-    Project mapDtoToEntity(ProjectRequest request);
+    Project mapDtoToEntity(ProjectRequestDto request);
 
-    ProjectPayload mapEntityToDto(Project project);
+    ProjectResponseDto mapEntityToDto(Project project);
 }
