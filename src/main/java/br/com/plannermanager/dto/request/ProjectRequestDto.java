@@ -20,5 +20,6 @@ public class ProjectRequestDto implements Serializable {
     @NotEmpty(message = "The field description must be required")
     private String description;
     @JsonProperty("project_status")
+    @NotEmpty(message = "The field project_status must be required")
     private String projectStatus;
 }
