@@ -28,8 +28,16 @@ public class HttpUtil {
         return ResponseEntity.created(uri).body(payload);
     }
 
-    public static<K> ResponseEntity<K> getBadRequestResponse( K payload){
+    public static<T> ResponseEntity<T> getBadRequestResponse(T payload){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(payload);
+    }
+
+    public static<T> ResponseEntity<T> getNotFoundResponse(T payload){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(payload);
+    }
+
+    public static<T> ResponseEntity<T> getSuccessResponse(T payload){
+        return ResponseEntity.status(HttpStatus.OK).body(payload);
     }
 
 }

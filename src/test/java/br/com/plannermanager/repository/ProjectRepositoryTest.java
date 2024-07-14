@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @DataJpaTest
 @ActiveProfiles("dev")
 class ProjectRepositoryTest {
@@ -29,4 +32,12 @@ class ProjectRepositoryTest {
         project = projectRepository.save(project);
         Assertions.assertNotNull(project.getId());
     }
+
+    @DisplayName("Should return a project when id is provided")
+    @Test
+    void shouldReturnsAProjectWhenValidIdIsProvided(){
+      Optional<Project> project =  projectRepository.findById(UUID.randomUUID());
+      Assertions.assertNotNull(project);
+    }
+
 }

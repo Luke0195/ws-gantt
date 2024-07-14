@@ -1,6 +1,7 @@
 package br.com.plannermanager.bunisses;
 
 import br.com.plannermanager.bunisses.exceptions.EntityAlreadyExistsException;
+import br.com.plannermanager.bunisses.exceptions.EntityNotExistsException;
 import br.com.plannermanager.bunisses.service.impl.ProjectServiceImpl;
 import br.com.plannermanager.domain.Project;
 import br.com.plannermanager.dto.request.ProjectRequestDto;
@@ -21,6 +22,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = ProjectServiceTest.class)
@@ -36,6 +38,8 @@ class ProjectServiceTest {
     private ProjectRequestDto projectRequestDto;
 
     private ProjectRequestDto existingProjectDto;
+    private UUID existingId;
+    private UUID nonExistsId;
 
 
     @BeforeEach
@@ -43,9 +47,12 @@ class ProjectServiceTest {
         this.projectRequestDto = ProjectFactory.makeProjectDto();
         this.existingProjectDto = ProjectFactory.makeProjectDto();
         this.existingProjectDto.setName("invalid_name");
+        this.existingId = UUID.randomUUID();
+        this.nonExistsId = UUID.randomUUID();
         Mockito.when(projectRepository.findByName(existingProjectDto.getName())).thenThrow(EntityAlreadyExistsException.class);
         Mockito.when(projectRepository.save(Mockito.any(Project.class))).thenReturn(ProjectFactory.makeProjectDtoToEntity(this.projectRequestDto));
         Mockito.when(projectRepository.findByName(this.projectRequestDto.getName())).thenReturn(Optional.empty());
+        Mockito.when(projectRepository.findById(this.existingId)).thenReturn(Optional.of(ProjectFactory.makeProjectDtoToEntity(this.projectRequestDto)));
     }
 
     @DisplayName("Should throws EntityAlreadyExists if project name already exists")
@@ -66,5 +73,22 @@ class ProjectServiceTest {
         Assertions.assertNotNull(responseDto.getProjectStatus());
         Assertions.assertNotNull(responseDto.getDescription());
         Assertions.assertNotNull(responseDto.getCreatedAt());
+    }
+
+    @DisplayName("Should return a ProjectResponseDto when valid id is provided")
+    @Test
+    void shouldReturnAProjectWhenValidIdIsProvided(){
+       ProjectResponseDto responseDto = projectService.findProjectById(this.existingId);
+       Assertions.assertNotNull(responseDto);
+       Assertions.assertNotNull(responseDto.getId());
+    }
+
+    @DisplayName("Should throws when invalid id is provided ")
+    @Test
+    void shouldThrowsAProjectWhenInvalidProjectIsProvided(){
+        Assertions.assertThrows(EntityNotExistsException.class, () ->{
+            projectService.findProjectById(this.nonExistsId);
+        });
+
     }
 }

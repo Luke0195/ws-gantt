@@ -2,6 +2,7 @@ package br.com.plannermanager.controllers.exception;
 
 
 import br.com.plannermanager.bunisses.exceptions.EntityAlreadyExistsException;
+import br.com.plannermanager.bunisses.exceptions.EntityNotExistsException;
 import br.com.plannermanager.dto.response.FieldErrorDto;
 import br.com.plannermanager.dto.response.StandardErrorDto;
 import br.com.plannermanager.utils.http.HttpUtil;
@@ -27,6 +28,14 @@ public class ProjectManagerExceptionHandler {
     StandardErrorDto responseData = makeStandardErrorPayload("Entity already Exists!",
             getExceptionMessage(exception),pathUrl, badRequestStatusCode, new ArrayList<>());
     return HttpUtil.getBadRequestResponse(responseData);
+  }
+
+  @ExceptionHandler(EntityNotExistsException.class)
+  public ResponseEntity<StandardErrorDto> entityNotFound(HttpServletRequest httpServletRequest, EntityNotExistsException exception){
+    String pathUrl = HttpUtil.getUriFromRequest(httpServletRequest);
+    int notFoundStatus = HttpUtil.getStatusCode(HttpStatus.NOT_FOUND);
+    StandardErrorDto responseData = makeStandardErrorPayload("Entity not found!", getExceptionMessage(exception), pathUrl,notFoundStatus, new ArrayList<>());
+    return HttpUtil.getNotFoundResponse(responseData);
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
