@@ -1,6 +1,5 @@
 package br.com.plannermanager.domain;
 
-import br.com.plannermanager.domain.enums.ProjectStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,36 +7,27 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
-@Builder
 @Entity
-@Table(name="projects")
-public class Project implements Serializable {
-
+@Table(name="users")
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-
-    @Column(nullable = false)
     private String name;
-
-    @Column(columnDefinition = "TEXT")
-    private String description;
-
-    @Column(name="project_status")
-    @Enumerated(EnumType.STRING)
-    private ProjectStatus projectStatus;
-
+    private String email;
+    private String role;
+    @ManyToOne
+    @JoinColumn(name="group_id")
+    private Group group;
     @Column(name="created_at")
     private LocalDateTime createdAt;
-
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
-
 
     @PrePersist
     void prePersist(){
@@ -48,5 +38,4 @@ public class Project implements Serializable {
     void preUpdate(){
         this.updatedAt = LocalDateTime.now();
     }
-
 }
