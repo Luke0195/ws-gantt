@@ -3,6 +3,7 @@ package br.com.plannermanager.controllers.exception;
 
 import br.com.plannermanager.bunisses.exceptions.EntityAlreadyExistsException;
 import br.com.plannermanager.bunisses.exceptions.EntityNotExistsException;
+import br.com.plannermanager.bunisses.exceptions.InvalidParamException;
 import br.com.plannermanager.dto.response.FieldErrorDto;
 import br.com.plannermanager.dto.response.StandardErrorDto;
 import br.com.plannermanager.utils.http.HttpUtil;
@@ -28,6 +29,15 @@ public class ProjectManagerExceptionHandler {
     StandardErrorDto responseData = makeStandardErrorPayload("Entity already Exists!",
             getExceptionMessage(exception),pathUrl, badRequestStatusCode, new ArrayList<>());
     return HttpUtil.getBadRequestResponse(responseData);
+  }
+
+  @ExceptionHandler(InvalidParamException.class)
+  public ResponseEntity<StandardErrorDto> invalidParamException(HttpServletRequest httpServletRequest, InvalidParamException exception){
+    String pathUrl = HttpUtil.getUriFromRequest(httpServletRequest);
+    int badRequestStatusCode = HttpUtil.getStatusCode(HttpStatus.BAD_REQUEST);
+    StandardErrorDto responseData = makeStandardErrorPayload("Invalid param!", getExceptionMessage(exception), pathUrl, badRequestStatusCode, new ArrayList<>());
+    return HttpUtil.getBadRequestResponse(responseData);
+
   }
 
   @ExceptionHandler(EntityNotExistsException.class)

@@ -2,6 +2,7 @@ package br.com.plannermanager.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class UserRequestDto implements Serializable {
     private String email;
     @NotEmpty(message = "The field role must be required")
     private String role;
-    @NotEmpty(message = "The field field group_id must be required")
+    @NotNull(message = "The field field group_id must be required")
     @JsonProperty("group_id")
     private UUID groupId;
 }

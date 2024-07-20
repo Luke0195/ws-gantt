@@ -1,6 +1,7 @@
 package br.com.plannermanager.bunisses.service.impl;
 
 import br.com.plannermanager.bunisses.exceptions.EntityAlreadyExistsException;
+import br.com.plannermanager.bunisses.exceptions.EntityNotExistsException;
 import br.com.plannermanager.bunisses.exceptions.InvalidParamException;
 import br.com.plannermanager.bunisses.mapper.UserMapper;
 import br.com.plannermanager.bunisses.service.UserService;
@@ -30,21 +31,30 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserResponseDto createUser(UserRequestDto requestDto) {
-     return null;
+     Optional<User> findUserByName = userRepository.findUserByName(requestDto.getName());
+     if(findUserByName.isPresent()) throw new EntityAlreadyExistsException("User name already exists!");
+     Group group = groupRepository.findById(requestDto.getGroupId()).orElseThrow(() -> new InvalidParamException("group_id not found!"));
+     User user = UserMapper.INSTANCE.mapDtoToEntity(requestDto, group);
+     user = userRepository.save(user);
+     return UserMapper.INSTANCE.mapEntityToDto(user);
     }
 
     @Override
-    public Page<User> findAllUsersPaged(Pageable pageable) {
-        return null;
+    @Transactional(readOnly = true)
+    public Page<UserResponseDto> findAllUsersPaged(Pageable pageable) {
+        Page<User> users = userRepository.findAll(pageable);
+        return users.map(UserMapper.INSTANCE::mapEntityToDto);
     }
 
     @Override
-    public User findUserById(UUID id) {
-        return null;
+    @Transactional(readOnly = true)
+    public UserResponseDto findUserById(UUID id) {
+       User user = userRepository.findById(id).orElseThrow(() -> new EntityNotExistsException("user id not found!"));
+       return UserMapper.INSTANCE.mapEntityToDto(user);
     }
 
     @Override
     public void deleteById(UUID id) {
-
+     userRepository.deleteById(id);
     }
 }

@@ -7,7 +7,7 @@ import br.com.plannermanager.repository.ProjectRepository;
 import br.com.plannermanager.utils.http.HttpUtil;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.hibernate.query.SortDirection;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 

@@ -11,5 +11,7 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
 
-    Optional<User> findUserByName(String name);
+  @Query(value = "SELECT obj FROM User obj where obj.name =:name")
+  Optional<User> findUserByName(String name);
+    
 }
